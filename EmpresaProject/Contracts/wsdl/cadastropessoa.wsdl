@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:tns="dddesenvolvendo.com/cadastropessoa/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:domain="dddesenvolvendo.com/v1/domain"
+	name="cadastropessoa" 
+	targetNamespace="dddesenvolvendo.com/cadastropessoa/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="dddesenvolvendo.com/cadastropessoa/">
+    <xsd:import namespace="dddesenvolvendo.com/v1/domain" schemaLocation="../schemas/pessoa.xsd"/>
+
+      <xsd:element name="CadastrarPessoa">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="pessoa" type="domain:pessoa"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      
+      <xsd:element name="ConsultarPessoa">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="nome" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="ConsultarPessoaResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="domain:pessoa"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="CadastrarPessoa">
+    <wsdl:part element="tns:CadastrarPessoa" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ConsultarPessoa">
+    <wsdl:part element="tns:ConsultarPessoa" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultarPessoaResponse">
+    <wsdl:part element="tns:ConsultarPessoaResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="cadastropessoa">
+    
+    <wsdl:operation name="ConsultarPessoa">
+      <wsdl:input message="tns:ConsultarPessoa"/>
+      <wsdl:output message="tns:ConsultarPessoaResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="CadastrarPessoa">
+      <wsdl:input message="tns:CadastrarPessoa"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  <wsdl:binding name="cadastropessoaSOAP" type="tns:cadastropessoa">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ConsultarPessoa">
+      <soap:operation soapAction="dddesenvolvendo.com/cadastropessoa/ConsultarPessoa"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+        <wsdl:operation name="CadastrarPessoa">
+      <soap:operation soapAction="dddesenvolvendo.com/cadastropessoa/CadastrarPessoa"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    
+  </wsdl:binding>
+  <wsdl:service name="cadastropessoa">
+    <wsdl:port binding="tns:cadastropessoaSOAP" name="cadastropessoaSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

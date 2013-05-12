@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="dddesenvolvendo.com/v1/domain" 
+	xmlns:tns="dddesenvolvendo.com/v1/domain" 
+	elementFormDefault="qualified">
+
+    <complexType name="pessoa">
+    	<sequence>
+    		<element name="nome" type="string"></element>
+    		<element name="cpf" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>

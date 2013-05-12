@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process name="CadastraPessoaSJ"
+              targetNamespace="http://www.example.com/flow/EmpresaProject/Services/SliptJoins/CadastraPessoaSJ"
+              xmlns:tns="http://www.example.com/flow/EmpresaProject/Services/SliptJoins/CadastraPessoaSJ"
+              xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+              xmlns:rescon="http://www.bea.com/alsb/flow/resources/config"
+              xmlns:bea="http://www.bea.com/bpel/ui/extensions"
+              xmlns:ext="http://www.bea.com/bpel/extensions"
+              xmlns:expr="http://www.bea.com/wli/sb/stages/config"
+              xmlns:trf="http://www.bea.com/wli/sb/stages/transform/config"
+              xmlns:bind="dddesenvolvendo.com/cadastropessoa/" 
+              bea:name="CadastraPessoaSJ">
+    <bpel:partnerLinks>
+        <bpel:partnerLink name="CadastraPessoaSJ" partnerLinkType="tns:CadastraPessoaSJ"
+	                         myRole="CadastraPessoaSJ">
+        </bpel:partnerLink>
+	   <bpel:partnerLink name="CadastroPessoaBS"
+		partnerLinkType="tns:CadastroPessoaBS_plnkType"
+		partnerRole="CadastroPessoaBS_PartnerRole">
+	   </bpel:partnerLink></bpel:partnerLinks>
+
+	   <bpel:variables>
+        <bpel:variable name="request"
+	                      messageType="bind:CadastrarPessoa">
+	       </bpel:variable>
+	   </bpel:variables>
+
+    <bpel:sequence>
+        <bpel:receive partnerLink="CadastraPessoaSJ" operation="CadastrarPessoa" variable="request" createInstance="yes">
+            <rescon:receiveInfo>
+                <rescon:wsdl ref="EmpresaProject/Contracts/wsdl/cadastropessoa" binding="bind:cadastropessoaSOAP"/>
+            </rescon:receiveInfo>
+        </bpel:receive>
+    <bpel:scope>
+		<bpel:variables>
+			<bpel:variable name="ConsultarPessoa"
+				messageType="bind:ConsultarPessoa">
+			</bpel:variable>
+			<bpel:variable name="ConsultarPessoaResponse"
+				messageType="bind:ConsultarPessoaResponse">
+			</bpel:variable></bpel:variables>
+	<bpel:sequence>
+			<bpel:invoke operation="ConsultarPessoa" partnerLink="CadastroPessoaBS" inputVariable="ConsultarPessoa" outputVariable="ConsultarPessoaResponse">
+				<rescon:invokeInfo>
+					<rescon:service isProxy="false" ref="EmpresaProject/Services/Business/CadastroPessoaBS"></rescon:service></rescon:invokeInfo></bpel:invoke></bpel:sequence>
+    </bpel:scope></bpel:sequence>
+</bpel:process>  
